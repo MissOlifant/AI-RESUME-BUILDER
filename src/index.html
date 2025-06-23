@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Resume Builder</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+
+  <style>
+    #resume-preview {
+      padding: 20px;
+      border: 2px dashed #ccc;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body class="bg-gray-100">
+  <header>
+    <h1 class="text-5xl font-extrabold text-center underline decoration-wavy decoration-white bg-gradient-to-r from-pink-500 via-orange-400 to-yellow-400 text-white py-6 px-4 rounded-xl shadow-md tracking-wide">
+      AI Resume Builder
+    </h1>
+    <p class="text-center text-gray-700 mt-2">Create a stunning resume with smart content</p>
+  </header>
+
+  <main class="max-w-4xl mx-auto mt-10 p-6 bg-white rounded-2xl shadow-lg">
+    <form id="resume-form" class="space-y-6">
+      <!-- Input Fields -->
+      <div><label>Full Name</label><input type="text" id="fullName" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400" /></div>
+      <div><label>Email Address</label><input type="email" id="email" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400" /></div>
+      <div><label>Phone Number</label><input type="tel" id="phone" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400" /></div>
+      <div><label>LinkedIn Profile</label><input type="url" id="linkedin" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400" /></div>
+      <div><label>GitHub Profile</label><input type="url" id="github" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400" /></div>
+      <div><label>Portfolio Website</label><input type="url" id="portfolio" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400" /></div>
+      <div><label>Job Role</label><input type="text" id="jobRole" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400" /></div>
+      <div><label>Industry</label><input type="text" id="industry" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400" /></div>
+      
+      <!-- Text Areas -->
+      <div><label>Summary/About Me</label><textarea id="summary" rows="3" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400"></textarea></div>
+      <div><label>Education</label><textarea id="education" rows="3" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400"></textarea></div>
+      <div><label>Certifications</label><textarea id="certifications" rows="2" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400"></textarea></div>
+      <div><label>Languages</label><textarea id="languages" rows="2" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400"></textarea></div>
+      <div><label>Projects</label><textarea id="projects" rows="3" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400"></textarea></div>
+      <div><label>Work Experience</label><textarea id="experience" rows="4" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400"></textarea></div>
+      <div><label>Skills</label><textarea id="skills" rows="3" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400"></textarea></div>
+      <div><label>References</label><textarea id="references" rows="3" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400"></textarea></div>
+
+      <!-- Font and Color Pickers -->
+      <div>
+        <label>Select Resume Font</label>
+        <select id="fontStyle" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400">
+          <option value="Arial, sans-serif">Arial</option>
+          <option value="Georgia, serif">Georgia</option>
+          <option value="'Courier New', monospace">Courier New</option>
+          <option value="'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">Segoe UI</option>
+          <option value="'Times New Roman', Times, serif">Times New Roman</option>
+        </select>
+      </div>
+
+      <div>
+        <label>Choose Theme Color</label>
+        <input type="color" id="themeColor" value="#ff6f91" class="w-24 h-10 p-0 border-none" />
+      </div>
+
+      <!-- Buttons -->
+      <div class="flex justify-between">
+        <button type="button" onclick="generateResume()" class="bg-pink-500 hover:bg-pink-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out">Generate Resume</button>
+        <button type="reset" class="bg-gray-300 hover:bg-gray-400 text-black font-medium py-2 px-4 rounded-lg transition duration-300 ease-in-out">Reset</button>
+      </div>
+    </form>
+
+    <section id="resume-output" class="hidden mt-10">
+      <h2 class="text-2xl font-bold mb-4 text-gray-800">Generated Resume</h2>
+      <div id="resume-preview" class="bg-white border border-gray-300 rounded-md p-6"></div>
+      <button onclick="downloadPDF()" class="mt-4 bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition">Download PDF</button>
+    </section>
+  </main>
+
+  <script>
+   async function downloadPDF() {
+  const { jsPDF } = window.jspdf;
+
+  // Take a snapshot of the styled resume div
+  const resumeElement = document.getElementById("resume-preview");
+  const canvas = await html2canvas(resumeElement, {
+    scale: 3,   
+  });
+
+  const imgData = canvas.toDataURL("image/png");
+  const pdf = new jsPDF("p", "mm", "a4");
+
+  const imgProps = pdf.getImageProperties(imgData);
+  const pdfWidth = pdf.internal.pageSize.getWidth();
+  const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+  pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+  pdf.save("resume.pdf");
+}
+
+async function generateResume() {
+  const getValue = id => document.getElementById(id).value;
+
+  const payload = {
+    fullName: getValue('fullName'),
+    jobRole: getValue('jobRole'),
+    industry: getValue('industry'),
+    summary: getValue('summary'),
+    skills: getValue('skills'),
+    experience: getValue('experience'),
+    education: getValue('education')
+  };
+
+  try {
+    const response = await fetch('https://3b903056-8b7d-4369-9e4b-5fb5cbe6231d-00-33m2mreivyf0c.spock.replit.dev/generate-resume', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
+    if (response.status === 429) {
+      alert('API quota exceeded. Please check your OpenAI billing and usage limits.');
+      return;
+    }
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    const preview = document.getElementById('resume-preview');
+    preview.innerHTML = `<div style="font-family: ${getValue('fontStyle')}; color: ${getValue('themeColor')}; white-space: pre-wrap;">${data.resume}</div>`;
+    document.getElementById('resume-output').classList.remove('hidden');
+
+  } catch (err) {
+    console.error(err);
+    alert('Error generating resume. Check console for details.');
+  }
+}
+    
+  </script>
+</body>
+</html>
