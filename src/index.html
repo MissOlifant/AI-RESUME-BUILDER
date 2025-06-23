@@ -31,14 +31,14 @@
   <main class="max-w-4xl mx-auto mt-10 p-6 bg-white rounded-2xl shadow-lg">
     <form id="resume-form" class="space-y-6" novalidate>
       <!-- Input Fields -->
-      <div><label for="fullName">Full Name</label><input type="text" id="fullName" placeholder="e.g., Joe Doe" required class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400" /></div>
-      <div><label for="email">Email Address</label><input type="email" id="email" placeholder="e.g., joeDo@hotmail.com," required class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400" /></div>
-      <div><label for="phone">Phone Number</label><input type="tel" id="phone" placeholder="e.g., +27615940026" required class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400" /></div>
-      <div><label for="linkedin">LinkedIn Profile</label><input type="url" id="linkedin" placeholder="e.g., https://linkedin.com/in/yourname" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400" /></div>
-      <div><label for="github">GitHub Profile</label><input type="url" id="github" placeholder="e.g., https://github.com/yourusername" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400" /></div>
-      <div><label for="portfolio">Portfolio Website</label><input type="url" id="portfolio" placeholder="e.g., https://yourportfolio.com" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400" /></div>
-      <div><label for="jobRole">Job Role</label><input type="text" id="jobRole" placeholder="e.g., Frontend Developer" required class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400" /></div>
-      <div><label for="industry">Industry</label><input type="text" id="industry" placeholder="e.g., Information Technology" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400" /></div>
+      <div><label for="fullName">Full Name</label><input type="text" id="fullName" placeholder="e.g. Joe Doe" required class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400" /></div>
+      <div><label for="email">Email Address</label><input type="email" id="email" placeholder="e.g. joeDo@hotmail.com," required class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400" /></div>
+      <div><label for="phone">Phone Number</label><input type="tel" id="phone" placeholder="e.g. +27615940026" required class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400" /></div>
+      <div><label for="linkedin">LinkedIn Profile</label><input type="url" id="linkedin" placeholder="e.g. https://linkedin.com/in/yourname" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400" /></div>
+      <div><label for="github">GitHub Profile</label><input type="url" id="github" placeholder="e.g. https://github.com/yourusername" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400" /></div>
+      <div><label for="portfolio">Portfolio Website</label><input type="url" id="portfolio" placeholder="e.g. https://yourportfolio.com" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400" /></div>
+      <div><label for="jobRole">Job Role</label><input type="text" id="jobRole" placeholder="e.g. Frontend Developer" required class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400" /></div>
+      <div><label for="industry">Industry</label><input type="text" id="industry" placeholder="e.g. Information Technology" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400" /></div>
       
       <!-- Text Areas with dynamic multiple entries -->
       <div>
@@ -49,27 +49,27 @@
       <!-- Education -->
       <div id="education-container">
         <label for="education-1">Education</label>
-        <textarea id="education-1" placeholder="e.g., BSc Computer Science, XYZ University, 2018–2022" rows="3" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400"></textarea>
+        <textarea id="education-1" placeholder="e.g. BSc Computer Science, XYZ University, 2018–2022" rows="3" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400"></textarea>
       </div>
       <button type="button" onclick="addField('education')" class="mt-2 bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded">Add Another Education</button>
 
       <!-- Certifications -->
       <div id="certifications-container">
         <label for="certifications-1">Certifications</label>
-        <textarea id="certifications-1" placeholder="e.g., AWS Certified Developer, 2024" rows="2" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400"></textarea>
+        <textarea id="certifications-1" placeholder="e.g. AWS Certified Developer, 2024" rows="2" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400"></textarea>
       </div>
       <button type="button" onclick="addField('certifications')" class="mt-2 bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded">Add Another Certification</button>
 
       <!-- Work Experience -->
       <div id="experience-container">
         <label for="experience-1">Work Experience</label>
-        <textarea id="experience-1" placeholder="e.g., Software Developer at XYZ Company, Jan 2020 – Present, Responsibilities: ..." rows="4" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400"></textarea>
+        <textarea id="experience-1" placeholder="e.g. Software Developer at XYZ Company, Jan 2020 – Present, Responsibilities: ..." rows="4" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400"></textarea>
       </div>
       <button type="button" onclick="addField('experience')" class="mt-2 bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded">Add Another Job</button>
 
       <!-- Other Sections -->
       <div><label for="skills">Skills</label><textarea id="skills" placeholder="List your key skills separated by commas or in bullet points." rows="3" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400"></textarea></div>
-      <div><label for="languages">Languages</label><textarea id="languages" placeholder="e.g., Java(Beginner), C# (Intermediate)" rows="2" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400"></textarea></div>
+      <div><label for="languages">Languages</label><textarea id="languages" placeholder="e.g. Java(Beginner), C# (Intermediate)" rows="2" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400"></textarea></div>
       <div><label for="projects">Projects</label><textarea id="projects" placeholder="Briefly describe relevant projects you have built" rows="3" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400"></textarea></div>
       <div><label for="references">References</label><textarea id="references" placeholder="Provide reference details if desired." rows="3" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400"></textarea></div>
 
@@ -83,6 +83,14 @@
           <option value="'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">Segoe UI</option>
           <option value="'Times New Roman', Times, serif">Times New Roman</option>
         </select>
+      </div>
+      <div>
+         <label for="template">Choose Resume Template</label>
+         <select id="template" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400">
+         <option value="basic" selected>Basic</option>
+         <option value="modern">Modern</option>
+         <option value="creative">Creative</option>
+      </select>
       </div>
 
       <div>
@@ -116,10 +124,10 @@
       textarea.id = `${type}-${count}`;
       textarea.rows = 3;
       textarea.placeholder = type === 'education'
-        ? 'e.g., MSc Artificial Intelligence, ABC University, 2023–2025'
+        ? 'e.g. MSc Artificial Intelligence, ABC University, 2023–2025'
         : type === 'certifications'
-        ? 'e.g., Microsoft Certified Azure Developer, 2024'
-        : 'e.g., Backend Developer at XYZ Ltd, June 2021 – Present, Built REST APIs...';
+        ? 'e.g. Microsoft Certified Azure Developer, 2024'
+        : 'e.g. Backend Developer at XYZ Ltd, June 2021 – Present, Built REST APIs...';
       textarea.className = "w-full border border-gray-300 rounded-md px-4 py-2 mt-2 focus:outline-none focus:ring-2 focus:ring-pink-400";
       container.appendChild(textarea);
     }
@@ -135,15 +143,17 @@
       const getValue = id => document.getElementById(id).value;
 
       const payload = {
-        fullName: getValue('fullName'),
-        jobRole: getValue('jobRole'),
-        industry: getValue('industry'),
-        summary: getValue('summary'),
-        skills: getValue('skills'),
-        experience: getMultiValues('experience'),
-        education: getMultiValues('education'),
-        certifications: getMultiValues('certifications')
-      };
+      fullName: getValue('fullName'),
+      jobRole: getValue('jobRole'),
+      industry: getValue('industry'),
+      summary: getValue('summary'),
+      skills: getValue('skills'),
+      experience: getMultiValues('experience'),
+      education: getMultiValues('education'),
+      certifications: getMultiValues('certifications'),
+      template: getValue('template') 
+ };
+
 
       if (!payload.fullName || !payload.jobRole || !payload.summary) {
         alert('Please fill in at least Full Name, Job Role, and Summary.');
