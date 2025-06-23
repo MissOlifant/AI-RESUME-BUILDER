@@ -4,12 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AI Resume Builder</title>
+  <meta name="description" content="Build a professional resume instantly with AI-powered smart content and modern design options.">
+  <link rel="icon" href="favicon.ico" />
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
 
   <style>
     #resume-preview {
@@ -28,30 +29,53 @@
   </header>
 
   <main class="max-w-4xl mx-auto mt-10 p-6 bg-white rounded-2xl shadow-lg">
-    <form id="resume-form" class="space-y-6">
+    <form id="resume-form" class="space-y-6" novalidate>
       <!-- Input Fields -->
-      <div><label>Full Name</label><input type="text" id="fullName" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400" /></div>
-      <div><label>Email Address</label><input type="email" id="email" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400" /></div>
-      <div><label>Phone Number</label><input type="tel" id="phone" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400" /></div>
-      <div><label>LinkedIn Profile</label><input type="url" id="linkedin" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400" /></div>
-      <div><label>GitHub Profile</label><input type="url" id="github" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400" /></div>
-      <div><label>Portfolio Website</label><input type="url" id="portfolio" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400" /></div>
-      <div><label>Job Role</label><input type="text" id="jobRole" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400" /></div>
-      <div><label>Industry</label><input type="text" id="industry" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400" /></div>
+      <div><label for="fullName">Full Name</label><input type="text" id="fullName" required class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400" /></div>
+      <div><label for="email">Email Address</label><input type="email" id="email" required class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400" /></div>
+      <div><label for="phone">Phone Number</label><input type="tel" id="phone" required class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400" /></div>
+      <div><label for="linkedin">LinkedIn Profile</label><input type="url" id="linkedin" placeholder="e.g., https://linkedin.com/in/yourname" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400" /></div>
+      <div><label for="github">GitHub Profile</label><input type="url" id="github" placeholder="e.g., https://github.com/yourusername" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400" /></div>
+      <div><label for="portfolio">Portfolio Website</label><input type="url" id="portfolio" placeholder="e.g., https://yourportfolio.com" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400" /></div>
+      <div><label for="jobRole">Job Role</label><input type="text" id="jobRole" placeholder="e.g., Frontend Developer" required class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400" /></div>
+      <div><label for="industry">Industry</label><input type="text" id="industry" placeholder="e.g., Information Technology" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400" /></div>
       
-      <!-- Text Areas -->
-      <div><label>Summary/About Me</label><textarea id="summary" rows="3" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400"></textarea></div>
-      <div><label>Education</label><textarea id="education" rows="3" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400"></textarea></div>
-      <div><label>Certifications</label><textarea id="certifications" rows="2" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400"></textarea></div>
-      <div><label>Languages</label><textarea id="languages" rows="2" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400"></textarea></div>
-      <div><label>Projects</label><textarea id="projects" rows="3" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400"></textarea></div>
-      <div><label>Work Experience</label><textarea id="experience" rows="4" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400"></textarea></div>
-      <div><label>Skills</label><textarea id="skills" rows="3" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400"></textarea></div>
-      <div><label>References</label><textarea id="references" rows="3" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400"></textarea></div>
+      <!-- Text Areas with dynamic multiple entries -->
+      <div>
+        <label for="summary">Summary/About Me</label>
+        <textarea id="summary" placeholder="A brief introduction about yourself and your career goals." rows="3" required class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400"></textarea>
+      </div>
+
+      <!-- Education -->
+      <div id="education-container">
+        <label for="education-1">Education</label>
+        <textarea id="education-1" placeholder="e.g., BSc Computer Science, XYZ University, 2018–2022" rows="3" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400"></textarea>
+      </div>
+      <button type="button" onclick="addField('education')" class="mt-2 bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded">Add Another Education</button>
+
+      <!-- Certifications -->
+      <div id="certifications-container">
+        <label for="certifications-1">Certifications</label>
+        <textarea id="certifications-1" placeholder="e.g., AWS Certified Developer, 2024" rows="2" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400"></textarea>
+      </div>
+      <button type="button" onclick="addField('certifications')" class="mt-2 bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded">Add Another Certification</button>
+
+      <!-- Work Experience -->
+      <div id="experience-container">
+        <label for="experience-1">Work Experience</label>
+        <textarea id="experience-1" placeholder="e.g., Software Developer at XYZ Company, Jan 2020 – Present, Responsibilities: ..." rows="4" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400"></textarea>
+      </div>
+      <button type="button" onclick="addField('experience')" class="mt-2 bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded">Add Another Job</button>
+
+      <!-- Other Sections -->
+      <div><label for="skills">Skills</label><textarea id="skills" placeholder="List your key skills separated by commas or in bullet points." rows="3" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400"></textarea></div>
+      <div><label for="languages">Languages</label><textarea id="languages" placeholder="e.g., Java(Beginner), C# (Intermediate)" rows="2" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400"></textarea></div>
+      <div><label for="projects">Projects</label><textarea id="projects" placeholder="Briefly describe relevant projects you have built" rows="3" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400"></textarea></div>
+      <div><label for="references">References</label><textarea id="references" placeholder="Provide reference details if desired." rows="3" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400"></textarea></div>
 
       <!-- Font and Color Pickers -->
       <div>
-        <label>Select Resume Font</label>
+        <label for="fontStyle">Select Resume Font</label>
         <select id="fontStyle" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400">
           <option value="Arial, sans-serif">Arial</option>
           <option value="Georgia, serif">Georgia</option>
@@ -62,13 +86,13 @@
       </div>
 
       <div>
-        <label>Choose Theme Color</label>
+        <label for="themeColor">Choose Theme Color</label>
         <input type="color" id="themeColor" value="#ff6f91" class="w-24 h-10 p-0 border-none" />
       </div>
 
       <!-- Buttons -->
       <div class="flex justify-between">
-        <button type="button" onclick="generateResume()" class="bg-pink-500 hover:bg-pink-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out">Generate Resume</button>
+        <button id="generate-btn" type="button" onclick="generateResume()" class="bg-pink-500 hover:bg-pink-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out">Generate Resume</button>
         <button type="reset" class="bg-gray-300 hover:bg-gray-400 text-black font-medium py-2 px-4 rounded-lg transition duration-300 ease-in-out">Reset</button>
       </div>
     </form>
@@ -80,68 +104,104 @@
     </section>
   </main>
 
+  <footer class="text-center mt-10 text-gray-500 text-sm">
+    &copy; 2025 AI Resume Builder. All rights reserved.
+  </footer>
+
   <script>
-   async function downloadPDF() {
-  const { jsPDF } = window.jspdf;
+    function addField(type) {
+      const container = document.getElementById(`${type}-container`);
+      const count = container.querySelectorAll('textarea').length + 1;
+      const textarea = document.createElement('textarea');
+      textarea.id = `${type}-${count}`;
+      textarea.rows = 3;
+      textarea.placeholder = type === 'education'
+        ? 'e.g., MSc Artificial Intelligence, ABC University, 2023–2025'
+        : type === 'certifications'
+        ? 'e.g., Microsoft Certified Azure Developer, 2024'
+        : 'e.g., Backend Developer at XYZ Ltd, June 2021 – Present, Built REST APIs...';
+      textarea.className = "w-full border border-gray-300 rounded-md px-4 py-2 mt-2 focus:outline-none focus:ring-2 focus:ring-pink-400";
+      container.appendChild(textarea);
+    }
 
-  // Take a snapshot of the styled resume div
-  const resumeElement = document.getElementById("resume-preview");
-  const canvas = await html2canvas(resumeElement, {
-    scale: 3,   
-  });
+    function getMultiValues(type) {
+      return Array.from(document.querySelectorAll(`#${type}-container textarea`))
+        .map(t => t.value)
+        .filter(val => val.trim() !== '')
+        .join('\n\n');
+    }
 
-  const imgData = canvas.toDataURL("image/png");
-  const pdf = new jsPDF("p", "mm", "a4");
+    async function generateResume() {
+      const getValue = id => document.getElementById(id).value;
 
-  const imgProps = pdf.getImageProperties(imgData);
-  const pdfWidth = pdf.internal.pageSize.getWidth();
-  const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+      const payload = {
+        fullName: getValue('fullName'),
+        jobRole: getValue('jobRole'),
+        industry: getValue('industry'),
+        summary: getValue('summary'),
+        skills: getValue('skills'),
+        experience: getMultiValues('experience'),
+        education: getMultiValues('education'),
+        certifications: getMultiValues('certifications')
+      };
 
-  pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
-  pdf.save("resume.pdf");
-}
+      if (!payload.fullName || !payload.jobRole || !payload.summary) {
+        alert('Please fill in at least Full Name, Job Role, and Summary.');
+        return;
+      }
 
-async function generateResume() {
-  const getValue = id => document.getElementById(id).value;
+      const button = document.getElementById('generate-btn');
+      button.disabled = true;
+      button.innerText = "Generating...";
 
-  const payload = {
-    fullName: getValue('fullName'),
-    jobRole: getValue('jobRole'),
-    industry: getValue('industry'),
-    summary: getValue('summary'),
-    skills: getValue('skills'),
-    experience: getValue('experience'),
-    education: getValue('education')
-  };
+      try {
+        const response = await fetch('https://3b903056-8b7d-4369-9e4b-5fb5cbe6231d-00-33m2mreivyf0c.spock.replit.dev/generate-resume', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
 
-  try {
-    const response = await fetch('https://3b903056-8b7d-4369-9e4b-5fb5cbe6231d-00-33m2mreivyf0c.spock.replit.dev/generate-resume', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
+        if (response.status === 429) {
+          alert('API quota exceeded. Please check your OpenAI billing and usage limits.');
+          return;
+        }
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        const preview = document.getElementById('resume-preview');
+        preview.innerHTML = `<div style="font-family: ${getValue('fontStyle')}; color: ${getValue('themeColor')}; white-space: pre-wrap;">${data.resume}</div>`;
+        document.getElementById('resume-output').classList.remove('hidden');
+
+      } catch (err) {
+        console.error(err);
+        alert('Error generating resume. Check console for details.');
+      } finally {
+        button.disabled = false;
+        button.innerText = "Generate Resume";
+      }
+    }
+
+    async function downloadPDF() {
+      const { jsPDF } = window.jspdf;
+      const resumeElement = document.getElementById("resume-preview");
+      const canvas = await html2canvas(resumeElement, { scale: 3 });
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF("p", "mm", "a4");
+      const imgProps = pdf.getImageProperties(imgData);
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+      pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+      pdf.save("resume.pdf");
+    }
+
+    document.getElementById('resume-form').addEventListener('reset', () => {
+      document.getElementById('resume-output').classList.add('hidden');
     });
-
-    if (response.status === 429) {
-      alert('API quota exceeded. Please check your OpenAI billing and usage limits.');
-      return;
-    }
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const data = await response.json();
-
-    const preview = document.getElementById('resume-preview');
-    preview.innerHTML = `<div style="font-family: ${getValue('fontStyle')}; color: ${getValue('themeColor')}; white-space: pre-wrap;">${data.resume}</div>`;
-    document.getElementById('resume-output').classList.remove('hidden');
-
-  } catch (err) {
-    console.error(err);
-    alert('Error generating resume. Check console for details.');
-  }
-}
-    
   </script>
 </body>
 </html>
+
+
