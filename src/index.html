@@ -11,7 +11,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
   <style>
     #resume-preview {
       padding: 20px;
@@ -32,7 +31,7 @@
     <form id="resume-form" class="space-y-6" novalidate>
       <!-- Input Fields -->
       <div><label for="fullName">Full Name</label><input type="text" id="fullName" placeholder="e.g. Joe Doe" required class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400" /></div>
-      <div><label for="email">Email Address</label><input type="email" id="email" placeholder="e.g. joeDo@hotmail.com," required class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400" /></div>
+      <div><label for="email">Email Address</label><input type="email" id="email" placeholder="e.g. joeDo@hotmail.com" required class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400" /></div>
       <div><label for="phone">Phone Number</label><input type="tel" id="phone" placeholder="e.g. +27615940026" required class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400" /></div>
       <div><label for="linkedin">LinkedIn Profile</label><input type="url" id="linkedin" placeholder="e.g. https://linkedin.com/in/yourname" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400" /></div>
       <div><label for="github">GitHub Profile</label><input type="url" id="github" placeholder="e.g. https://github.com/yourusername" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400" /></div>
@@ -69,9 +68,10 @@
 
       <!-- Other Sections -->
       <div><label for="skills">Skills</label><textarea id="skills" placeholder="List your key skills separated by commas or in bullet points." rows="3" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400"></textarea></div>
-      <div><label for="languages">Languages</label><textarea id="languages" placeholder="e.g. Java(Beginner), C# (Intermediate)" rows="2" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400"></textarea></div>
+      <div><label for="languages">Languages</label><textarea id="languages" placeholder="Add coding languges or tools e.g. Java(Beginner), C# (Intermediate)" rows="2" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400"></textarea></div>
       <div><label for="projects">Projects</label><textarea id="projects" placeholder="Briefly describe relevant projects you have built" rows="3" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400"></textarea></div>
-      <div><label for="references">References</label><textarea id="references" placeholder="Provide reference details if desired." rows="3" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400"></textarea></div>
+      <div><label for="references">References</label><textarea id="references" placeholder="Provide reference details if desired. e.g Jane Dube: Senior UX Designer DesignMentor Co. 
+Contact: +27 71 234 5678,  janedube@designmentor.co" rows="3" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400"></textarea></div>
 
       <!-- Font and Color Pickers -->
       <div>
@@ -140,78 +140,282 @@
     }
 
     async function generateResume() {
-      const getValue = id => document.getElementById(id).value;
+  const getValue = id => document.getElementById(id).value;
 
-      const payload = {
-      fullName: getValue('fullName'),
-      jobRole: getValue('jobRole'),
-      industry: getValue('industry'),
-      summary: getValue('summary'),
-      skills: getValue('skills'),
-      experience: getMultiValues('experience'),
-      education: getMultiValues('education'),
-      certifications: getMultiValues('certifications'),
-      template: getValue('template') 
- };
+  // Collect ALL user information
+  const payload = {
+    fullName: getValue('fullName'),
+    email: getValue('email'),
+    phone: getValue('phone'),
+    linkedin: getValue('linkedin'),
+    github: getValue('github'),
+    portfolio: getValue('portfolio'),
+    jobRole: getValue('jobRole'),
+    industry: getValue('industry'),
+    summary: getValue('summary'),
+    skills: getValue('skills'),
+    experience: getMultiValues('experience'),
+    education: getMultiValues('education'),
+    certifications: getMultiValues('certifications'),
+    languages: getValue('languages'),
+    projects: getValue('projects'),
+    references: getValue('references'),
+    template: getValue('template'),
+    fontStyle: getValue('fontStyle'),
+    themeColor: getValue('themeColor')
+  };
 
+  // 🔍 DEBUG: Check if references are being captured correctly
+  console.log('References data:', payload.references);
+  console.log('Full payload:', payload);
 
-      if (!payload.fullName || !payload.jobRole || !payload.summary) {
-        alert('Please fill in at least Full Name, Job Role, and Summary.');
-        return;
+  // Validation - require only essential fields
+  if (!payload.fullName || !payload.jobRole) {
+    alert('Please fill in at least Full Name and Job Role.');
+    return;
+  }
+
+  const button = document.getElementById('generate-btn');
+  button.disabled = true;
+  button.innerText = "Generating...";
+
+  try {
+    const response = await fetch(
+      'https://3b903056-8b7d-4369-9e4b-5fb5cbe6231d-00-33m2mreivyf0c.spock.replit.dev/generate-resume',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
       }
+    );
 
-      const button = document.getElementById('generate-btn');
-      button.disabled = true;
-      button.innerText = "Generating...";
-
-      try {
-        const response = await fetch('https://3b903056-8b7d-4369-9e4b-5fb5cbe6231d-00-33m2mreivyf0c.spock.replit.dev/generate-resume', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
-
-        if (response.status === 429) {
-          alert('API quota exceeded. Please check your OpenAI billing and usage limits.');
-          return;
-        }
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        const preview = document.getElementById('resume-preview');
-        preview.innerHTML = `<div style="font-family: ${getValue('fontStyle')}; color: ${getValue('themeColor')}; white-space: pre-wrap;">${data.resume}</div>`;
-        document.getElementById('resume-output').classList.remove('hidden');
-
-      } catch (err) {
-        console.error(err);
-        alert('Error generating resume. Check console for details.');
-      } finally {
-        button.disabled = false;
-        button.innerText = "Generate Resume";
-      }
+    if (response.status === 429) {
+      alert('API quota exceeded. Please check your OpenAI billing and usage limits.');
+      return;
     }
 
-    async function downloadPDF() {
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    const preview = document.getElementById('resume-preview');
+    preview.innerHTML = `<div style="font-family: ${getValue('fontStyle')}; color: ${getValue('themeColor')}; white-space: pre-wrap;">${data.resume}</div>`;
+    document.getElementById('resume-output').classList.remove('hidden');
+  } catch (err) {
+    console.error(err);
+    alert('Error generating resume. Check console for details.');
+  } finally {
+    button.disabled = false;
+    button.innerText = "Generate Resume";
+  }
+
+  function extractTextFromHTML(element) {
+  const clone = element.cloneNode(true);
+
+  const headers = clone.querySelectorAll('h1, h2, h3, h4, h5, h6');
+  headers.forEach(header => {
+    header.textContent = header.textContent.toUpperCase();
+    header.insertAdjacentText('afterend', '\n');
+  });
+
+  const listItems = clone.querySelectorAll('li');
+  listItems.forEach(li => {
+    li.textContent = '• ' + li.textContent;
+    li.insertAdjacentText('afterend', '\n');
+  });
+
+  const paragraphs = clone.querySelectorAll('p');
+  paragraphs.forEach(p => {
+    p.insertAdjacentText('afterend', '\n');
+  });
+
+  const hrs = clone.querySelectorAll('hr');
+  hrs.forEach(hr => {
+    hr.insertAdjacentText('afterend', '\n');
+  });
+
+  return clone.textContent || clone.innerText || '';
+}
+
+}
+   //Download pdf 
+  async function downloadPDF() {
       const { jsPDF } = window.jspdf;
-      const resumeElement = document.getElementById("resume-preview");
-      const canvas = await html2canvas(resumeElement, { scale: 3 });
-      const imgData = canvas.toDataURL("image/png");
       const pdf = new jsPDF("p", "mm", "a4");
-      const imgProps = pdf.getImageProperties(imgData);
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-      pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+      
+      // Get the raw resume text from the preview
+      const resumeElement = document.getElementById("resume-preview");
+      const resumeText = extractTextFromHTML(resumeElement);
+      
+      // Set font and styling
+      const getValue = id => document.getElementById(id).value;
+      const selectedFont = getValue('fontStyle');
+      const themeColor = getValue('themeColor');
+      
+      // Convert hex color to RGB for jsPDF
+      const hexToRgb = (hex) => {
+        const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        return result ? {
+          r: parseInt(result[1], 16),
+          g: parseInt(result[2], 16),
+          b: parseInt(result[3], 16)
+        } : {r: 0, g: 0, b: 0};
+      };
+      
+      const color = hexToRgb(themeColor);
+      
+      // Page setup
+      const pageWidth = pdf.internal.pageSize.getWidth();
+      const pageHeight = pdf.internal.pageSize.getHeight();
+      const margin = 20;
+      const maxWidth = pageWidth - (margin * 2);
+      let yPosition = margin;
+      
+      // Split text into lines and sections
+      const lines = resumeText.split('\n').filter(line => line.trim() !== '');
+      
+      lines.forEach((line, index) => {
+        const trimmedLine = line.trim();
+        if (!trimmedLine) return;
+        
+        // Check if we need a new page
+        if (yPosition > pageHeight - 30) {
+          pdf.addPage();
+          yPosition = margin;
+        }
+        
+        // Detect headers (lines that are likely section headers)
+        const isHeader = /^(Contact Information|Summary|Professional Summary|Skills|Work Experience|Education|Certifications|Languages|Projects|References|About Me|Core Skills|Professional Experience)$/i.test(trimmedLine) ||
+                         (trimmedLine.length < 50 && !/[.,:]/.test(trimmedLine) && trimmedLine === trimmedLine.toUpperCase());
+        
+        if (isHeader) {
+          // Header styling
+          pdf.setFontSize(14);
+          pdf.setFont("helvetica", "bold");
+          pdf.setTextColor(color.r, color.g, color.b);
+          
+          // Add some space before header (except first one)
+          if (index > 0) yPosition += 5;
+          
+          pdf.text(trimmedLine, margin, yPosition);
+          yPosition += 8;
+          
+          // Add underline
+          pdf.setLineWidth(0.5);
+          pdf.setDrawColor(color.r, color.g, color.b);
+          pdf.line(margin, yPosition - 2, margin + pdf.getTextWidth(trimmedLine), yPosition - 2);
+          yPosition += 3;
+          
+        } else {
+          // Regular text styling
+          pdf.setFontSize(11);
+          pdf.setFont("helvetica", "normal");
+          pdf.setTextColor(0, 0, 0); // Black text
+          
+          // Handle bullet points
+          if (trimmedLine.startsWith('•') || trimmedLine.startsWith('-')) {
+            const bulletText = trimmedLine.substring(1).trim();
+            pdf.text('•', margin + 5, yPosition);
+            
+            // Wrap long bullet text
+            const wrappedText = pdf.splitTextToSize(bulletText, maxWidth - 10);
+            wrappedText.forEach((textLine, lineIndex) => {
+              pdf.text(textLine, margin + 12, yPosition);
+              if (lineIndex < wrappedText.length - 1) yPosition += 5;
+            });
+            yPosition += 6;
+            
+          } else {
+            // Regular paragraph text
+            const wrappedText = pdf.splitTextToSize(trimmedLine, maxWidth);
+            wrappedText.forEach((textLine, lineIndex) => {
+              pdf.text(textLine, margin, yPosition);
+              if (lineIndex < wrappedText.length - 1) yPosition += 5;
+            });
+            yPosition += 6;
+          }
+        }
+      });
+      
       pdf.save("resume.pdf");
     }
+    
+    // Helper function to extract clean text from HTML
+    function extractTextFromHTML(element) {
+      const clone = element.cloneNode(true);
+      
+      // Convert HTML structure to clean text
+      const headers = clone.querySelectorAll('h1, h2, h3, h4, h5, h6');
+      headers.forEach(header => {
+        header.textContent = header.textContent.toUpperCase();
+        header.insertAdjacentText('afterend', '\n');
+      });
+      
+      // Convert lists to bullet points
+      const listItems = clone.querySelectorAll('li');
+      listItems.forEach(li => {
+        li.textContent = '• ' + li.textContent;
+        li.insertAdjacentText('afterend', '\n');
+      });
+      
+      // Add line breaks after paragraphs
+      const paragraphs = clone.querySelectorAll('p');
+      paragraphs.forEach(p => {
+        p.insertAdjacentText('afterend', '\n');
+      });
+      
+      // Add line breaks after hr elements
+      const hrs = clone.querySelectorAll('hr');
+      hrs.forEach(hr => {
+        hr.insertAdjacentText('afterend', '\n');
+      });
+      
+      return clone.textContent || clone.innerText || '';
+    }
 
-    document.getElementById('resume-form').addEventListener('reset', () => {
+        
+    // Download as plain text file
+    function downloadTXT() {
+      const resumeElement = document.getElementById("resume-preview");
+      const resumeText = extractTextFromHTML(resumeElement);
+      
+      const blob = new Blob([resumeText], { type: 'text/plain' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'resume.txt';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
+    }
+    
+    // Copy resume text to clipboard
+    async function copyToClipboard() {
+      const resumeElement = document.getElementById("resume-preview");
+      const resumeText = extractTextFromHTML(resumeElement);
+      
+      try {
+        await navigator.clipboard.writeText(resumeText);
+        alert('Resume text copied to clipboard!');
+      } catch (err) {
+        console.error('Failed to copy text: ', err);
+        // Fallback for older browsers
+        const textArea = document.createElement('textarea');
+        textArea.value = resumeText;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
+        alert('Resume text copied to clipboard!');
+      }
+    }
+
+      document.getElementById('resume-form').addEventListener('reset', () => {
       document.getElementById('resume-output').classList.add('hidden');
     });
   </script>
 </body>
 </html>
-
 
